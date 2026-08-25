@@ -5,21 +5,6 @@ Uses a Vox-Profile WavLM checkpoint to predict speaker sex
 (2-class: Female/Male) and age (regressed in [0, 1], multiplied by 100 to
 get years) on the utterances that survived SPoRC filtering.
 
-Mirrors the structure of infer_dialect_sporc.py so both scripts can share
-the same input dir (filtered_output/) and output dir (utterance_labels/).
-
--------------------------------------------------------------------------------
-Model interface (confirmed from working run_age_sex_classification.py)
--------------------------------------------------------------------------------
-    # from vox-profile-release/src/model/age_sex/
-    from wavlm_demographics import WavLMWrapper
-    model = WavLMWrapper.from_pretrained(args.model_id)
-    age_pred, sex_logits = model(audio)       # audio: [1, T] mono 16 kHz
-
-The import below assumes the vox-profile-release source tree is importable as
-`vox_profile.src.model.age_sex.wavlm_demographics`. If your environment puts
-that directory on sys.path differently, adjust the import line only.
--------------------------------------------------------------------------------
 
 Usage:
   # Single GPU:

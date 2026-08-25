@@ -2,13 +2,6 @@
 SPoRC Dual-ASR pipeline with AST music filtering and SNR estimation.
 Adapted from the NaturalVoices data_filtering.py pipeline.
 
-Key differences from NaturalVoices:
-  - No license filtering (not available in SPoRC).
-  - Full-episode audio → VAD + SNR via Brouhaha (single pass).
-  - Audio files named by line index in urls.txt (e.g., 001_audio.mp3).
-  - Whisper large-v3 instead of Whisper Turbo.
-  - Metadata is JSONL (one JSON object per line), not nested JSON.
-
 Filtering thresholds (matching NaturalVoices data_filtering.py):
   - SNR >= 15 dB
   - Music event probability <= 0.1  (AST sum over music categories)
@@ -96,7 +89,7 @@ BROUHAHA_RATIO = SAMPLE_RATE / 270
 
 # Batch sizes (tuneable via CLI)
 AST_BATCH_SIZE = 64
-WHISPER_BATCH_SIZE = 64       # large-v3 is heavier than turbo; smaller default
+WHISPER_BATCH_SIZE = 64       
 CANARY_BATCH_SIZE = 64
 
 # ============================================================================

@@ -7,7 +7,7 @@ Build per-speaker SPoRC info from:
 
 Output: sporc_speaker_info.json
 
-Structure (matches the NaturalVoices speaker_info.json convention):
+Structure:
 {
   "Speaker Name": {
     "ep_XXXXXX": ["canary_text of seg_0000", "... of seg_0002", ...],

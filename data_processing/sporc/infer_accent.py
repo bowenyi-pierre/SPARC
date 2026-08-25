@@ -1,16 +1,6 @@
 """
 SPoRC dialect inference.
 
-Adapted from the NaturalVoices infer_dialect.py. Key differences:
-  - Input: per-episode JSONs in filtered_output/ (output of sporc_data_filtering.py),
-    not split_canary_whisper/.
-  - Audio: mp3/m4a files referenced by the `audio_file` field inside each segment,
-    not FLACs derived from file_id. Uses an ffmpeg fallback for m4a/aac.
-  - Sharding: --shard_id / --num_shards to run in parallel across GPUs; each shard
-    writes its own dialect JSON to avoid write races.
-  - Output format is kept identical to the NaturalVoices version so downstream
-    per-speaker aggregation stays compatible.
-
 Usage:
   # Single GPU:
   python infer_dialect_sporc.py \
