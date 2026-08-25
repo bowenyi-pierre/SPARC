@@ -1,0 +1,2 @@
+data_processing/naturalvoices/data/speaker_info.json filter=lfs diff=lfs merge=lfs -text
+data_processing/sporc/data/speaker_info.json filter=lfs diff=lfs merge=lfs -text

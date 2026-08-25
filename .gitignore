@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.log
+*.lock
+*.tmp
+.DS_Store
+.env
+.venv/
+outputs/
+raw_data/
+audio_files/
+raw_audio_archives/
+filtered_output/
+utterance_labels/
