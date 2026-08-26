@@ -1,0 +1,10 @@
+-r requirements.txt
+torchaudio>=2.1
+soundfile>=0.12
+jiwer>=3.0
+openai-whisper
+nemo_toolkit[asr]
+huggingface-hub>=0.24
+pyannote.audio>=3.1
+brouhaha
+PyYAML>=6.0
