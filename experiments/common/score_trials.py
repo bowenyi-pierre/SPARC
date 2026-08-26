@@ -1,16 +1,16 @@
 """
 Scorer for speaker-verification trials.
 
-Model roster
+Models
 ------------------
     sbert      – SentenceBERT (all-mpnet-base-v2)
     tfidf      – TF-IDF cosine similarity
     cisr       – CISR / Style-Embedding (AnnaWegmann/Style-Embedding)
     pcm        – PCM style (Blablablab/multilingual-style-representation)
-    luar       – LUAR-CRUD episode embedding
-    gpt        – GPT-5-mini  (OpenAI API)
-    llama      – Llama-3.3-70B-Instruct-Turbo  (Together AI)
-    qwen       – Qwen3.5-9B  (Together AI)
+    luar       – LUAR-CRUD 
+    gpt        – GPT-5-mini 
+    llama      – Llama-3.3-70B-Instruct-Turbo  
+    qwen       – Qwen3.5-9B  
 
 Output
 ------
@@ -41,13 +41,6 @@ Usage
         --models gpt llama qwen \\
         --task   gender \\
         --llm_mode binary
-
-Environment variables
----------------------
-    OPENAI_API_KEY
-    TOGETHER_API_KEY
-
-
 """
 
 from __future__ import annotations

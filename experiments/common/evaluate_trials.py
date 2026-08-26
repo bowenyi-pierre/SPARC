@@ -1,6 +1,4 @@
 """
-evaluate.py
-===========
 Evaluates all models stored in the JSON score files produced by extract_scores.py.
 
 Input layout
@@ -30,10 +28,6 @@ Usage
         --trial_dir  trials/50_L5/speaker/ \\
         --task       speaker \\
         --output_dir eval/speaker_50_L5/
-
-Requirements
-------------
-    pip install scikit-learn pandas matplotlib numpy
 """
 
 import argparse
@@ -48,9 +42,6 @@ import pandas as pd
 from sklearn.metrics import roc_auc_score, roc_curve
 
 
-# -------------------------------------------------------------------------
-# Constants
-# -------------------------------------------------------------------------
 
 TRIAL_FILES = [
     "easy_positives",
@@ -102,9 +93,6 @@ BOOTSTRAP_FRAC = 0.80
 FPR_TARGETS    = [0.01, 0.001]   # 1%  and  0.1%
 
 
-# -------------------------------------------------------------------------
-# Data loading
-# -------------------------------------------------------------------------
 
 def load_data(scored_dir: str, trial_dir: str) -> dict[str, pd.DataFrame]:
     """
@@ -156,9 +144,6 @@ def detect_models(data: dict[str, pd.DataFrame]) -> list[str]:
     return ordered
 
 
-# -------------------------------------------------------------------------
-# Metrics
-# -------------------------------------------------------------------------
 
 def compute_eer(fpr: np.ndarray, tpr: np.ndarray) -> float:
     fnr  = 1.0 - tpr
@@ -270,9 +255,6 @@ def compute_metrics(
     return result
 
 
-# -------------------------------------------------------------------------
-# Plot helpers
-# -------------------------------------------------------------------------
 
 def save_fig(fig, path: str) -> None:
     fig.savefig(path, dpi=150, bbox_inches="tight")
@@ -326,9 +308,7 @@ def plot_roc(df: pd.DataFrame, models: list[str], title: str,
     return metrics
 
 
-# -------------------------------------------------------------------------
-# Log-scale ROC
-# -------------------------------------------------------------------------
+
 
 def plot_roc_loglog(df: pd.DataFrame, models: list[str], title: str,
                     pos_label: str, neg_label: str, out_path: str) -> None:
@@ -375,9 +355,7 @@ def plot_roc_loglog(df: pd.DataFrame, models: list[str], title: str,
     save_fig(fig, out_path)
 
 
-# -------------------------------------------------------------------------
-# Main
-# -------------------------------------------------------------------------
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -404,7 +382,7 @@ def main() -> None:
     print(f"  output_dir : {output_dir}")
     print(f"{'='*60}\n")
 
-    # ── Load ──────────────────────────────────────────────────────────
+  
     print("[Loading data]")
     data   = load_data(args.scored_dir, args.trial_dir)
     if not data:
@@ -417,7 +395,7 @@ def main() -> None:
     combined = pd.concat(data.values(), ignore_index=True)
     summary  = {}   # model -> view -> metrics
 
-    # ── 1. Combined ROC ───────────────────────────────────────────────
+
     print("\n[Combined ROC]")
     m = plot_roc(
         combined, models,
@@ -429,7 +407,7 @@ def main() -> None:
     for model, metrics in m.items():
         summary.setdefault(model, {})["combined"] = metrics
 
-    # ── 1b. Combined ROC log-log ──────────────────────────────────────
+
     print("\n[Combined ROC — log scale]")
     plot_roc_loglog(
         combined, models,
@@ -439,7 +417,7 @@ def main() -> None:
         out_path  = os.path.join(output_dir, "roc_combined_loglog.png"),
     )
 
-    # ── 2–5. Group ROCs ───────────────────────────────────────────────
+
     print("\n[Group ROCs]")
     for group_name, stems in GROUPS.items():
         dfs = [data[s] for s in stems if s in data]
@@ -460,8 +438,6 @@ def main() -> None:
         for model, metrics in m.items():
             summary.setdefault(model, {})[group_name] = metrics
 
-    # ── 6. Summary JSON ───────────────────────────────────────────────
-    # Replace model keys with display names for readability
     named_summary = {
         MODEL_DISPLAY.get(model, model): views
         for model, views in summary.items()
@@ -471,7 +447,7 @@ def main() -> None:
         json.dump(named_summary, fh, indent=2)
     print(f"\n  Saved summary -> {summary_path}")
 
-    # ── Console table ─────────────────────────────────────────────────
+
     print(f"\n{'='*80}")
     print(f"  Summary  [{args.task.upper()}]   AUC ↑   EER ↓   epsilon ↓")
     print(f"{'='*80}")
